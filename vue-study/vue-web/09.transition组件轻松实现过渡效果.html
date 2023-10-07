@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>transition组件轻松实现过渡效果</title>
+<!-- <script type="text/javascript" src="./vue.js"></script> -->
+<!--引入vue.js-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/vue/2.1.3/vue.js"></script>
+<style type="text/css">
+	.test{
+		width:200px;
+		height:200px;
+		line-height: 200px;
+		text-align: center;
+		border: 1px solid #ddd;
+		background: #aa5555;
+		color:#fff;
+		opacity: 1;
+    	margin-left: 0;
+	}
+	.test-enter{
+		opacity: 0;
+    	margin-left: 50%;
+	}
+	.test-leave-active{
+		opacity: 0;
+    	margin-left: 50%;
+	}
+	.test-enter-active,.test-leave-active{
+    	transition: all .8s;
+ 	}
+</style>
+</head>
+<body>
+	<!--创建挂载点-->
+	<div id="app">
+		<div @click="isShow = !isShow">切换(比较生硬的效果)</div>
+		<div v-show="isShow">
+			<div class="test">我是vue</div>
+		</div>
+
+		<div @click="isShow2 = !isShow2">切换(平滑的效果)</div>
+		<transition name="test">
+			<div v-show="isShow2" class="test">
+				我是vue
+			</div>
+		</transition>
+		
+	</div>
+	<script>
+	    let vm = new Vue({
+	        el:"#app",
+	        data:{
+	        	isShow:false,
+	        	isShow2:false
+	        }
+	    });
+	</script>
+</body>
+</html>
+
+	

@@ -1,0 +1,49 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>组件化</title>
+<!-- <script type="text/javascript" src="./vue.js"></script> -->
+<!--引入vue.js-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/vue/2.1.3/vue.js"></script>
+<style type="text/css">
+	.user{float:left; margin:10px; width:200px; text-align:center;}	
+	.user img{width:100px; height:50px;}
+	.user h4, .user p{margin:5px;}
+</style>
+</head>
+<body>
+	<!--创建挂载点-->
+	<div id="app">
+		<userinfo v-bind:data="user1"></userinfo>
+	    <userinfo :data="user2"></userinfo>
+	    <userinfo :data="user3"></userinfo>
+	</div>
+
+	<script>
+	    //注册一个名叫userInfo的组件
+		Vue.component('userinfo',{
+			props:["data"],
+	        template:`<div class="user">
+	            <img src="logo.png" alt="">
+	            <h4>{{data.name}}</h4>
+	            <p>{{data.desc}}</p>
+	        </div>`
+	    });
+
+	    new Vue({
+	       	el:"#app",
+	       	data:{
+	       		kkk:"sdfsdf",
+		       	user1:{name:"张三1",  desc:"前端工程师"},
+		       	user2:{name:"张三2",  desc:"后端工程师"},
+		       	user3:{name:"张三3",  desc:"运维工程师"}
+	       	}
+	    });
+	</script>
+</body>
+</html>
+
+	

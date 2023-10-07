@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vuex</title>
+<!-- <script type="text/javascript" src="./vue.js"></script> -->
+<!--引入vue.js-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/vue/2.1.3/vue.js"></script>
+<script type="text/javascript" src="https://unpkg.com/vue-router@2.5.3/dist/vue-router.js"></script>
+<script type="text/javascript" src="https://unpkg.com/vuex"></script>
+</head>
+<body>
+	<!--创建挂载点-->
+	<div id="app">
+		结果：{{count}},派生的结果：{{newCount}}
+		<button @click="add">++</button>
+		<button @click="add5">+5</button>
+		<br/>
+		<child></child>
+	</div>
+	<script>
+
+		//创建一个 store
+ 		const store = new Vuex.Store({
+ 			//state存储应用层的状态
+		    state:{
+		        count:5  //总数：5
+		    },
+		    //派生出来的状态
+   			getters:{
+    			newCount: function(state) {
+    				return state.count * 3
+    			}
+    		},
+    		//更改store状态的唯一途径
+		    mutations:{
+		        increment(state, val){
+		        	if(val) state.count += val;
+		        	else state.count ++;
+		        }
+		    }
+ 		});
+
+ 		//定义一个子组件
+		Vue.component("child", {
+			template: "<div>子组件监听到的：{{count}}， <button @click='add'>++</button></div>",
+			methods: {
+				add: function() {
+					this.$store.commit('increment');
+				}
+			},
+			computed: {
+				count(){
+	        		return this.$store.state.count;
+	        	}
+			}
+		});
+
+		
+
+		//实例化一个vue
+	    var vm = new Vue({
+	        el:"#app",
+	        store,
+	        computed: {
+	        	count(){
+	        		return this.$store.state.count;
+	        	},
+	        	newCount(){
+	        		return this.$store.getters.newCount;
+	        	}
+	        },
+	        methods: {
+	        	add: function() {
+	        		this.$store.commit('increment');
+	        	},
+	        	add5: function() {
+	        		this.$store.commit('increment',5);
+	        	}
+	        }
+	    });
+	</script>
+</body>
+</html>
+
+	

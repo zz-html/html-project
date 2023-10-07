@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>vue 实例的生命周期</title>
+<!-- <script type="text/javascript" src="./vue.js"></script> -->
+<!--引入vue.js-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/vue/2.1.3/vue.js"></script>
+</head>
+<body>
+	<!--创建挂载点-->
+	<div id="app">
+		姓名:{{ name }}
+		<br/>
+		<button v-on:click="chgName">修改名字</button>
+		<button v-on:click="doDestroy">销毁</button>
+	</div>
+	<script>
+	    let vm = new Vue({
+	        el:"#app",
+	        data:{
+	            name:"张三",
+	        },
+	        beforeCreate: function() {
+	        	console.info("创建前：这时候实例中的属性还不可用");
+	        	console.info(this.$data);
+	        	console.info(this.$el)
+	        },
+	        created: function() {
+	        	console.info("成功创建：示例的属性可以用，但是dom还没生成");
+	        	console.info(this.$data);
+	        	console.info(this.$el);
+	        },
+	        beforeMount: function() {
+	        	console.info("挂载前：dom已生成，但是数据还没渲染");
+	        	console.info(this.$data);
+	        	console.info(this.$el);
+	        },
+	        mounted: function() {
+	        	console.info("成功挂载：数据成功渲染");
+	        	console.info(this.$el);
+	        },
+	        beforeUpdate: function() {
+	        	console.info("更新前：属性值变了，但是渲染的还是旧值");
+	        	let innerHTML = this.$el.innerHTML;
+  				console.log('name:'+this.name);
+  				console.log('innerHTML:'+innerHTML);
+	        },
+	        updated: function() {
+	        	console.info("成功更新：渲染的变成最新值");
+	        	let innerHTML = this.$el.innerHTML;
+	        	console.log('name:'+this.name);
+  				console.log('innerHTML:'+innerHTML);
+	        },
+	        beforeDestroy: function() {
+	        	console.info("销毁前");
+	        },
+	        destroyed: function() {
+	        	console.info("成功销毁");
+	        },
+	        actived: function() {
+
+	        },
+	        deactivated: function() {
+
+	        },
+	        methods: {
+	        	chgName: function() {
+	        		this.name = "李四";
+	        	},
+	        	doDestroy: function() {
+	        		this.$destroy();
+	        	}
+	        }
+	    });
+	</script>
+</body>
+</html>
+
+	

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>html中数据绑定</title>
+<!-- <script type="text/javascript" src="./vue.js"></script> -->
+<!--引入vue.js-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/vue/2.1.3/vue.js"></script>
+</head>
+<body>
+	<!--创建挂载点-->
+	<div id="app">
+		Mustache语法：姓名:{{ name }}
+		</br>
+		纯html：姓名:<span v-html="name2"></span>
+		</br>
+		纯文本：姓名:<span v-text="name2"></span>
+		</br>
+		bind指令：<a v-bind:href="baidu">百度</a>
+		</br>
+		指令简写：<a :href="baidu">百度指令简写</a>
+		</br>
+		js表达式：1 + 2 + 3 = {{1 + 2 + 3}} 、1 == 2 ? {{1 == 2 ? 'true' : 'false'}}
+	</div>
+	<script>
+	    let vm = new Vue({
+	        el:"#app",
+	        data:{
+	            name:"张三",
+	            name2:"<strong>张三</strong>",
+	            baidu:"http://www.baidu.com"
+	        },
+	    });
+	</script>
+</body>
+</html>
+
+	

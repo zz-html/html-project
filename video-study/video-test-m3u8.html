@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <title>videojs视频播放DEMO</title>
+  
+  <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="https://rjuclass.ruijie.com.cn/assets/plugins/video.js/7.10.2/video.js"></script>
+  <script type="text/javascript" src="https://rjuclass.ruijie.com.cn/assets/plugins/video.js/7.10.2/lang/zh-CN.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://rjuclass.ruijie.com.cn/assets/plugins/video.js/7.10.2/video-js.css" />
+  <link rel="shortcut icon" href="https://rjuclass.ruijie.com.cn/images/favicon.png">
+  <style type="text/css">
+	body {text-align: center;}
+	.example_video { margin: 10px auto;}
+.url-panel { width: 800px; height: 33px; margin: 0 auto; text-align: left; }
+.url-panel .text-input { width:70%; height:33px; margin: 0 5px;}
+#btn-refresh { height: 33px; width:50px; text-align: center;}
+</style>
+<body>
+  <h3>视频测试  -  <span id="startTime"></h3>
+  <div class="url-panel" style="display: block;">
+       视频地址<input id="urlInput" type="input" class="text-input" value="https://inner-local-devtest.yangkg.xyz:8000/SSXKXS2/stream92.m3u8?st=XpQOgK5cccgTtabmcGtodg&e=1635149529&t=2&s=2&r=92&uuid=e3a7033e-2839-4f5c-a4b4-faa7373fe009" />
+  	<button id="btn-refresh" onclick="refresh()">刷新</button>
+  </div>
+  <!-- 
+  <video id="example_video_1" class="video-js vjs-default-skin" controls preload="true">
+    <source src="http://120.35.11.138:888/live/test.m3u8" type="application/x-mpegURL">
+  </video>
+   -->
+</body>
+</html>
+<script>
+var retryCnt = 0;
+var resetVideoJSTimer = 0;
+var errorDisplay = null;
+var player = null;
+var playVideoId = 'example_video_1';
+var src = 'https://172.30.229.139/tbjx/resources/record/%E5%9C%B0%E7%90%86_%E6%9E%97%E4%BA%AE%E8%80%81%E5%B8%88_20210629150855_%E7%89%87%E6%AE%B51.mp4';
+$(document).ready(function(){
+	// initVideoJS('example_video_1', src);
+	/*
+	for(var i = 1;i<=5;i++) {
+		initVideoJS('example_video_'+i, src);
+	}
+	
+	var urls = [
+		'https://inner-local-devtest.yangkg.xyz:8000/xgtest/madf.m3u8',
+		];
+	for(var i = 0;i<urls.length;i++) {
+		initVideoJS('example_video_'+(i+1), urls[i]);
+	}
+	*/
+	$('#startTime').text(new Date())
+	tourClassDetail()
+});
+function refresh() {
+    retryCnt = 0;
+	tourClassDetail()
+}
+function tourClassDetail() {
+	var url = $('#urlInput').val();
+	if (url == "") { return; }
+	initVideoJS('example_video', url);
+}
+function initVideoJS(playVideoId, url) {
+	if(typeof(player) != 'undefined' && player) {
+		player.dispose();
+	}
+ if($('#' + playVideoId).length == 0) {
+	var html = '<video id="'+playVideoId+'" class="example_video video-js vjs-default-skin" controls preload="true">'
+	if(url.indexOf('.mp4') != -1) {
+		html+='<source src="'+url+'" type="video/mp4">';
+	} else {
+		html+='<source src="'+url+'" type="application/x-mpegURL">';
+	}
+	html+='</video>';
+	$('body').append(html);
+ }
+ player = videojs('#'+playVideoId, {
+	height: 450,
+	width: 800,
+	language: 'zh-CN',
+	muted: true, // 是否静音
+	autoplay: true,
+	controls: true,
+	loop: true,
+	controlBar: {
+		volumePanel: {
+			inline: true
+		},
+		pictureInPictureToggle:false
+	}
+	// 更多配置.....
+  },function onPlayerReady() {
+	this.on('ready',function(){
+	 console.log(playVideoId +' ready', url, new Date())
+	});
+    this.on("loadeddata", function(e){
+	   retryCnt = 0;
+	   console.log(playVideoId+" loadeddata", url, new Date());
+	}); 
+	this.on("error", function(){
+		var errorMsg = '';
+		try {
+			if(player && typeof(player.error_) != 'undefined' && player.error_.message != '') {
+				errorMsg = player.error_.message
+			}
+		} catch(t) {
+		}
+		
+		console.log("加载错误", errorMsg, new Date());
+		// vjs-modal-dialog-content
+		// errorDisplay =  player.errorDisplay;
+		retryCnt++;
+		
+	    var _player = this;
+	   if (resetVideoJSTimer) {
+			window.clearTimeout(resetVideoJSTimer);
+	   }
+	   resetVideoJSTimer = window.setTimeout(function () { resetVideo(playVideoId, url) }, 3000);
+	});
+	this.on("stalled", function(e){
+		console.log(playVideoId+" stalled 异常", new Date());
+	});	
+	var waitingTimes = 0
+	//每次卡顿都会出发waiting
+    this.on('waiting',function(){
+        console.log('waiting',waitingTimes++, new Date())
+    })
+  });
+}
+function resetVideo(playVideoId, url) {
+    if($('#urlInput').val() != url) {
+		return;
+	}
+    retryCnt++;
+	initVideoJS(playVideoId, url);
+}
+</script>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<!-- <script type="text/javascript" src="./vue.js"></script> -->
+<!--引入vue.js-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/vue/2.1.3/vue.js"></script>
+</head>
+<body>
+	<!--创建挂载点-->
+	<div id="app">
+		{{msg}}，<button @click="sendToChild">向子组件发送消息</button>
+		{{childToParent}}
+		<child :message="parentToChild" @connect="sayToParent" ></child>
+	</div>
+	<script>
+		Vue.component("child", {
+			props:["message"],
+			template: "<div>{{message}}<button @click='sendToParent'>向父组件发送消息</button></div>",
+			methods: {
+				sendToParent: function() {
+					this.$emit("connect", "你好，父组件")
+				}
+			}
+		})
+	    let vm = new Vue({
+	        el:"#app",
+	        data:{
+	            msg:"我是父组件",
+	            parentToChild:"",
+	            childToParent:""
+	        },
+	        methods: {
+	        	sayToParent: function(pam) {
+	        		this.childToParent = pam;
+	        	},
+	        	sendToChild: function() {
+	        		this.parentToChild = "你好，子组件"
+	        	}
+	        }
+	    });
+	</script>
+</body>
+</html>
+
+	

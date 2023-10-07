@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vuex</title>
+<!-- <script type="text/javascript" src="./vue.js"></script> -->
+<!--引入vue.js-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/vue/2.1.3/vue.js"></script>
+<script type="text/javascript" src="https://unpkg.com/vue-router@2.5.3/dist/vue-router.js"></script>
+<script type="text/javascript" src="https://unpkg.com/vuex"></script>
+<script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+	<!--创建挂载点-->
+	<div id="app">
+		<button @click="testGet">testGet</button>
+		<div>{{hello}}</div>
+		<button @click="testPost">testPost</button>
+		<div>{{hello2}}</div>
+		<button @click="testAll">testAll</button>
+		<div>{{hello11}}</div>
+		<div>{{hello21}}</div>
+	</div>
+	<script>
+		//实例化一个vue
+	    var vm = new Vue({
+	        el:"#app",
+	        data:{
+	        	hello:"",
+	        	hello2:"",
+	        	hello11:"",
+	        	hello21:""
+	        },
+	        methods: {
+	        	testGet: function() {
+	        		var self = this;
+	        		axios.get(
+	        			"http://localhost:9999/study/test/hello"
+	        		).then(function(res){
+	        			self.hello = res.data;
+	        		}).catch(function(err){
+						
+	        		})
+	        	},
+	        	testPost: function() {
+	        		var self = this;
+	        		axios.post(
+	        			"http://localhost:9999/study/test/hello2",
+	        			{
+	        				name: "陈嘉瑛",
+	        				age:20
+	        			}
+	        		).then(function(res){
+	        			self.hello2 = res.data;
+	        		}).catch(function(err){
+						
+	        		})
+	        	},
+	        	testAll: function() {
+	        		var self = this;
+	        		axios.all([
+	        			axios.get(
+		        			"http://localhost:9999/study/test/hello"
+		        		), 
+		        		axios.post(
+		        			"http://localhost:9999/study/test/hello2",
+		        			{
+		        				name: "陈嘉瑛",
+		        				age:20
+		        			}
+		        		)
+		        	]).then(axios.spread((res1, res2)=>{
+					    self.hello11 = res1.data;
+					    self.hello21 = res2.data;
+					}))
+
+	        	}
+	        }
+	    });
+	</script>
+</body>
+</html>
+
+	
