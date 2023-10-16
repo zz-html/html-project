@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>≤‚ ‘JSZIP</title>
+</head>
+<body>
+    <input type="file" id="file"/>
+    <img src="" id="image">
+</body>
+<script type="text/javascript" src="jszip.min.js"></script>
+<script type="text/javascript" src="FileSaver.js"></script>
+<script type="text/javascript">
+var zip = new JSZip();
+zip.file("Hello.txt", "Hello World\n");
+zip.file("Hello2.txt", "Hello World2\n");
+zip.generateAsync({type:"blob"})
+.then(function(content) {
+    // see FileSaver.js
+//console.log("content",content);
+    saveAs(content, "example.zip");
+});
+</script>
+</html>
