@@ -1,5 +1,14 @@
 {
-  "name": "hello-world",
-  "version": "0.1.0",
-  "main": "main.js"
+  "name": "electron-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "zz",
+  "license": "ISC",
+  "devDependencies": {
+ 
+  }
 }
