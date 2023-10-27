@@ -1,0 +1,52 @@
+{
+  "name": "shineui-moc",
+  "version": "0.1.0",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "start": "electron .",
+    "pack": "electron-packager ./ shineui-moc --out ./dist-electron --asar --platform=win32 --arch=x64 --electron-version 7.3.3 --overwrite",
+    "pack:linux": "electron-packager ./ shineui-moc --out ./dist-electron --asar --platform=linux --arch=x64 --electron-version 7.3.3 --overwrite"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "element-ui": "^2.5.16",
+    "log4js": "^6.4.4",
+    "postcss-plugin-px2rem": "^0.8.1",
+    "vue": "^2.6.11",
+    "vue-router": "^3.5.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.13",
+    "@vue/cli-plugin-eslint": "~4.5.13",
+    "@vue/cli-service": "~4.5.13",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "vue-template-compiler": "^2.6.11",
+    "electron": "^7.3.2",
+    "electron-packager": "^15.5.1"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
