@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <button @click="copyUrl">复制</button>
+    <button type="button" @click="copyUrl">复制</button>
+    <button type="button" @click="doCopy">Copy!</button>
   </div>
 </template>
 
@@ -26,7 +27,17 @@ export default {
       }else{
         alert("不支持");
       }        
-    },    
+    }, 
+    doCopy: function () {
+      this.$copyText("test2").then(function (e) {
+        alert('Copied')
+        console.log(e)
+      }, function (e) {
+        alert('Can not copy')
+        console.log(e)
+      })
+    }
+  
   }
 }
 </script>
