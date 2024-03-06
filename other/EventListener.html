@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Event Example</title>
+</head>
+<body>
+
+<button id="myButton">Click me to trigger custom event</button>
+
+<script>
+    // 添加事件监听器
+    window.addEventListener('message', function(event) {
+        console.log("Custom event listener triggered!", event.detail);
+    });
+
+    // 获取按钮元素
+    var button = document.getElementById('myButton');
+
+    // 添加点击事件监听器，用于触发自定义事件
+    button.addEventListener('click', function() {
+        var eventData = { msg: 'Hello from custom event!' };
+        var customEvent = new CustomEvent('message', { detail: eventData });
+
+        // 触发该事件
+        window.dispatchEvent(customEvent);
+    });
+</script>
+
+</body>
+</html>
